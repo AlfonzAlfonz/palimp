@@ -1,16 +1,11 @@
-import { Button, Drawer, FloatButton } from "antd";
+import { Drawer, FloatButton } from "antd";
 import { PencilRuler } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { usePreviewButton } from "./usePreviewButton";
-import { usePublishButton } from "./usePublishButton";
-import { useSaveButton } from "./useSaveButton";
+import { DevtoolsContent } from "./DevtoolsContent";
+import { DevtoolsProvider } from "./DevtoolsContext";
 
 export const Devtools = () => {
   const [expanded, setExpanded] = useState(false);
-
-  const save = useSaveButton();
-  const preview = usePreviewButton();
-  const publish = usePublishButton();
 
   const drawerRef = useRef<HTMLDivElement>(null!);
   useEffect(function closeOnClickOutside() {
@@ -87,19 +82,9 @@ export const Devtools = () => {
             },
           }}
         >
-          <Button {...save.props} block>
-            {save.isPending ? "Saving..." : `Save (${save.length})`}
-          </Button>
-
-          <Button {...preview.props} block>
-            {preview.preview ? "Edit mode" : "Preview mode"}
-          </Button>
-
-          <div style={{ flex: "1 1 0" }} />
-
-          <Button {...publish.props} block>
-            {publish.isPending ? "Publishing..." : "Publish"}
-          </Button>
+          <DevtoolsProvider>
+            <DevtoolsContent />
+          </DevtoolsProvider>
         </Drawer>
       </div>
     </div>

@@ -1,3 +1,3 @@
 export interface PalimpPublishAdapter {
-  publish: () => Promise<void>;
+  publish: (token: string) => Promise<void>;
 }

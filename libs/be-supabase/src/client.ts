@@ -33,6 +33,39 @@ export const createClientAdapter = (
     },
     hasSession: () => hasAuthCookie(url),
 
+    getUser: async () => {
+      await ensureSupabase();
+
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError) {
+        throw userError;
+      }
+      if (!user) {
+        throw new Error("Not authenticated");
+      }
+
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("name, publish_token")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (profileError) {
+        throw profileError;
+      }
+
+      return {
+        id: user.id,
+        email: user.email ?? "",
+        name: (profile?.name as string | null) ?? undefined,
+        publishToken: (profile?.publish_token as string | null) ?? undefined,
+      };
+    },
+
     getKey: async (key) => {
       await ensureSupabase();
 

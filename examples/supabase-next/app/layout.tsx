@@ -18,7 +18,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       publishableKey={process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!}
     >
       <PalimpGithubPublishProvider
-        token={process.env.NEXT_PUBLIC_GITHUB_TOKEN!}
         owner={process.env.NEXT_PUBLIC_GITHUB_OWNER!}
         repo={process.env.NEXT_PUBLIC_GITHUB_REPO!}
         workflow={process.env.NEXT_PUBLIC_GITHUB_WORKFLOW!}
