@@ -26,5 +26,12 @@
   },
   "devDependencies": {
     "@types/node": "25.9.3"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.5.0",
+      "onFail": "download"
+    }
   }
 }
