@@ -1,0 +1,5 @@
+packages:
+  - libs/*
+  - examples/*
+allowBuilds:
+  sharp: false

@@ -1,0 +1,42 @@
+{
+  "name": "@palimp/fe-next",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./login": {
+      "types": "./dist/login.d.ts",
+      "import": "./dist/login.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch --preserveWatchOutput",
+    "check-types": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.8.0",
+      "onFail": "download"
+    }
+  },
+  "peerDependencies": {
+    "next": "^16.0.0",
+    "react": ">=18.0.0",
+    "@palimp/core": "workspace:*"
+  },
+  "dependencies": {
+    "@types/react": "^19.2.17"
+  }
+}

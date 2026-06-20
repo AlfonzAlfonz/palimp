@@ -1,0 +1,43 @@
+{
+  "name": "@palimp/core",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./admin": {
+      "types": "./dist/Admin/index.d.ts",
+      "import": "./dist/Admin/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch --preserveWatchOutput",
+    "check-types": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.8.0",
+      "onFail": "download"
+    }
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.101.0",
+    "@types/react": "^19.2.17",
+    "antd": "^6.4.4",
+    "lucide-react": "^1.21.0"
+  },
+  "peerDependencies": {
+    "react": "^19.2.7"
+  }
+}

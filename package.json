@@ -1,0 +1,26 @@
+{
+  "name": "palimp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "pnpm -r --filter './libs/*' build",
+    "dev": "pnpm -r --parallel --filter './libs/*' dev",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check-types": "pnpm -r --parallel --filter './libs/*' check-types"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.5.0",
+      "onFail": "download"
+    }
+  },
+  "type": "module",
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
