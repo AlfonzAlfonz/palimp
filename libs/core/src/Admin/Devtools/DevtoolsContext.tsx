@@ -29,6 +29,10 @@ export const DevtoolsProvider = (props: { children: ReactNode }) => {
     queryClient,
   );
 
+  if (user.error) {
+    console.error(user.error);
+  }
+
   const value = useMemo(
     () =>
       user.data && {

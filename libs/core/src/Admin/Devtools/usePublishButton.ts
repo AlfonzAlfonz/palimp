@@ -8,9 +8,9 @@ import { publishRunQueryKey, usePublishRun } from "./usePublishRun";
 export const usePublishButton = () => {
   const { user } = useDevtools();
   const adapter = use(PalimpPublishContext);
-  const { data: latestRun } = usePublishRun();
+  const { data: latestRun, isLoading } = usePublishRun();
 
-  const isRunning = !latestRun || latestRun.status !== "completed";
+  const isRunning = latestRun && latestRun.status !== "completed";
 
   const mutation = useMutation(
     {
@@ -26,7 +26,7 @@ export const usePublishButton = () => {
 
   return {
     props: {
-      disabled: mutation.isPending || isRunning,
+      disabled: mutation.isPending || isRunning || isLoading,
       onClick: () => mutation.mutate(),
     },
     isPending: mutation.isPending,

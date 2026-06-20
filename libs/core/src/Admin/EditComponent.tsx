@@ -19,7 +19,7 @@ export const EditComponent = ({
   const ctx = use(PalimpGeneralContext);
   const backend = use(PalimpClientBackendContext);
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, error } = useQuery(
     {
       queryKey: editQueryKey(messageKey),
       queryFn: () => backend.getKey(messageKey),
@@ -35,6 +35,10 @@ export const EditComponent = ({
     return <>{value}</>;
   }
 
+  if (error) {
+    console.log(error);
+  }
+
   if (textarea) {
     return (
       <textarea
@@ -43,6 +47,7 @@ export const EditComponent = ({
         style={{
           ...style,
           boxShadow: touched ? "0px 0px 2px 1px cyan" : undefined,
+          background: error ? `rgba(255, 0, 0, 0.3)` : "transparent",
         }}
         onChange={(e) => editsStore.set(messageKey, e.target.value)}
         disabled={isLoading}
@@ -60,7 +65,7 @@ export const EditComponent = ({
       placeholder={isLoading ? "Loading..." : messageKey}
       style={style}
       onChange={(e) => editsStore.set(messageKey, e.target.value)}
-      disabled={isLoading}
+      disabled={isLoading || !!error}
     />
   );
 };

@@ -1,4 +1,4 @@
-name: Deploy supabase-next example to github pages
+name: Deploy supabase-next example to GitHub Pages
 on:
   push:
     branches: ["main"]
@@ -29,7 +29,7 @@ jobs:
       NEXT_PUBLIC_SUPABASE_URL: https://inbozfknlugadtnbdqby.supabase.co
       NEXT_PUBLIC_GITHUB_OWNER: AlfonzAlfonz
       NEXT_PUBLIC_GITHUB_REPO: palimp
-      NEXT_PUBLIC_GITHUB_WORKFLOW: deploy.yml
+      NEXT_PUBLIC_GITHUB_WORKFLOW: deploy-supabase.yml
 
     steps:
       - uses: actions/checkout@v6

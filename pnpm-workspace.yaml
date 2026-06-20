@@ -2,4 +2,6 @@ packages:
   - libs/*
   - examples/*
 allowBuilds:
+  '@firebase/util': false
+  protobufjs: false
   sharp: false

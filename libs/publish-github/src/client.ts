@@ -28,7 +28,7 @@ const githubHeaders = (token: string) => ({
 });
 
 const runsUrl = (opts: GithubPublishOptions, perPage: number) =>
-  `https://api.github.com/repos/${opts.owner}/${opts.repo}/actions/workflows/${opts.workflow}/runs?event=workflow_dispatch&per_page=${perPage}`;
+  `https://api.github.com/repos/${opts.owner}/${opts.repo}/actions/workflows/${opts.workflow}/runs?per_page=${perPage}`;
 
 const mapStatus = (s: string | null): PublishRunStatus => {
   switch (s) {
@@ -46,9 +46,7 @@ const mapStatus = (s: string | null): PublishRunStatus => {
   }
 };
 
-const mapConclusion = (
-  c: string | null,
-): PublishRunConclusion | undefined => {
+const mapConclusion = (c: string | null): PublishRunConclusion | undefined => {
   if (c == null) return undefined;
   switch (c) {
     case "success":
@@ -101,9 +99,7 @@ const dispatchWorkflow = async (
     },
   );
   if (!res.ok) {
-    throw new Error(
-      `GitHub dispatch failed: ${res.status} ${res.statusText}`,
-    );
+    throw new Error(`GitHub dispatch failed: ${res.status} ${res.statusText}`);
   }
   return dispatchedAt;
 };
@@ -117,9 +113,7 @@ const fetchRuns = async (
     headers: githubHeaders(token),
   });
   if (!res.ok) {
-    throw new Error(
-      `GitHub get runs failed: ${res.status} ${res.statusText}`,
-    );
+    throw new Error(`GitHub get runs failed: ${res.status} ${res.statusText}`);
   }
   const json = (await res.json()) as { workflow_runs?: GithubRun[] };
   return json.workflow_runs ?? [];
