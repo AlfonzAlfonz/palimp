@@ -2,6 +2,7 @@ import type { User } from "./types";
 
 export interface PalimpClientBackendAdapter {
   login: (value: LoginValue) => Promise<void>;
+  logout: () => Promise<void>;
   hasSession: () => boolean;
   getUser: () => Promise<User>;
 

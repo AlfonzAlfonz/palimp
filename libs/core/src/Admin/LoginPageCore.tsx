@@ -1,10 +1,19 @@
 "use client";
 
-import { PalimpClientBackendContext } from "@palimp/core";
+import { PalimpClientBackendContext, PalimpGeneralContext } from "@palimp/core";
 import { useMutation } from "@tanstack/react-query";
-import { Alert, Button, Card, Form, Input, Typography } from "antd";
-import { use } from "react";
+import {
+  Alert,
+  Button,
+  Card,
+  Form,
+  Input,
+  notification,
+  Typography,
+} from "antd";
+import { use, useEffect, useState } from "react";
 import { queryClient } from "./queryClient";
+import { Spinner } from "./Spinner";
 
 interface Props {
   onLogin: () => void;
@@ -16,9 +25,12 @@ interface FormValues {
 }
 
 export const LoginPageCore = ({ onLogin }: Props) => {
+  const ctx = use(PalimpGeneralContext);
   const backend = use(PalimpClientBackendContext);
 
-  const { mutate, error, isPending } = useMutation(
+  const [mounted, setMounted] = useState(false);
+
+  const { mutate, error, isPending, isSuccess } = useMutation(
     {
       mutationKey: ["palimp:login"],
       mutationFn: (values: FormValues) =>
@@ -27,10 +39,25 @@ export const LoginPageCore = ({ onLogin }: Props) => {
           email: values.email,
           password: values.password,
         }),
-      onSuccess: onLogin,
+      onSuccess: () => {
+        onLogin();
+        ctx.reset();
+      },
     },
     queryClient,
   );
+
+  useEffect(() => {
+    if (isSuccess) return;
+
+    if (ctx.admin === true) {
+      onLogin();
+      notification.info({ title: "Already logged in" });
+    }
+    if (ctx.admin === false) {
+      setMounted(true);
+    }
+  }, [ctx.admin]);
 
   return (
     <div
@@ -48,55 +75,62 @@ export const LoginPageCore = ({ onLogin }: Props) => {
           __html: "* { box-sizing: border-box; margin: 0; padding: 0; }",
         }}
       ></style>
-      <Card style={{ width: "100%", maxWidth: 400 }}>
-        <Typography.Title level={3} style={{ marginTop: 0 }}>
-          Sign in
-        </Typography.Title>
 
-        <Form<FormValues>
-          layout="vertical"
-          onFinish={(values) => mutate(values)}
-          disabled={isPending}
-          requiredMark={false}
-        >
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: "Please enter your email" },
-              { type: "email", message: "Please enter a valid email" },
-            ]}
+      {!mounted && <Spinner size={96} />}
+
+      {mounted && (
+        <Card style={{ width: "100%", maxWidth: 400 }}>
+          <Typography.Title level={3} style={{ marginTop: 0 }}>
+            Sign in
+          </Typography.Title>
+
+          <Form<FormValues>
+            layout="vertical"
+            onFinish={(values) => mutate(values)}
+            disabled={isPending}
+            requiredMark={false}
           >
-            <Input type="email" autoComplete="email" size="large" />
-          </Form.Item>
-
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[{ required: true, message: "Please enter your password" }]}
-          >
-            <Input.Password autoComplete="current-password" size="large" />
-          </Form.Item>
-
-          {error && (
-            <Form.Item>
-              <Alert type="error" message={error.message} showIcon />
-            </Form.Item>
-          )}
-
-          <Form.Item style={{ marginBottom: 0 }}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              block
-              size="large"
-              loading={isPending}
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: "Please enter your email" },
+                { type: "email", message: "Please enter a valid email" },
+              ]}
             >
-              Sign in
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
+              <Input type="email" autoComplete="email" size="large" />
+            </Form.Item>
+
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                { required: true, message: "Please enter your password" },
+              ]}
+            >
+              <Input.Password autoComplete="current-password" size="large" />
+            </Form.Item>
+
+            {error && (
+              <Form.Item>
+                <Alert type="error" message={error.message} showIcon />
+              </Form.Item>
+            )}
+
+            <Form.Item style={{ marginBottom: 0 }}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
+                size="large"
+                loading={isPending}
+              >
+                Sign in
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      )}
     </div>
   );
 };

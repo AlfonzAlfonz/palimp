@@ -3,9 +3,12 @@ import { PencilRuler } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { DevtoolsContent } from "./DevtoolsContent";
 import { DevtoolsProvider } from "./DevtoolsContext";
+import { usePendingEdits } from "../editsStore";
 
 export const Devtools = () => {
   const [expanded, setExpanded] = useState(false);
+
+  const pending = usePendingEdits();
 
   const drawerRef = useRef<HTMLDivElement>(null!);
   useEffect(function closeOnClickOutside() {
@@ -53,6 +56,11 @@ export const Devtools = () => {
           <FloatButton
             onClick={() => setExpanded((s) => !s)}
             shape="square"
+            badge={
+              pending.length
+                ? { count: pending.length, color: "blue" }
+                : undefined!
+            }
             icon={<PencilRuler strokeWidth={1.2} size={20} />}
             style={{ pointerEvents: "all" }}
           />
@@ -66,8 +74,13 @@ export const Devtools = () => {
           onClose={() => setExpanded(false)}
           getContainer={false}
           style={{ pointerEvents: "all" }}
-          title="Palimp menu"
+          title="Palimp"
+          closable={{ placement: "end" }}
           styles={{
+            header: {
+              padding: "8px 8px 8px 12px",
+              borderBottomStyle: "dashed",
+            },
             wrapper: {
               borderRadius: "var(--ant-border-radius-lg)",
             },

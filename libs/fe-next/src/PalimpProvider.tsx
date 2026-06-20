@@ -9,23 +9,33 @@ const Devtools = dynamic(() =>
 );
 
 interface Props {
-  admin?: boolean;
   children: ReactNode;
 }
 
 export const PalimpProvider = ({ children }: Props) => {
-  const [admin, setAdmin] = useState(false);
+  const [admin, setAdmin] = useState<boolean | undefined>(undefined);
   const [preview, setPreview] = useState(false);
 
   const backend = use(PalimpClientBackendContext);
 
   useEffect(() => {
-    setAdmin(backend.hasSession());
-  }, []);
+    if (admin === undefined) {
+      setAdmin(backend.hasSession());
+    }
+  }, [admin]);
 
   return (
     <PalimpGeneralContext
-      value={{ admin, preview, togglePreview: () => setPreview((s) => !s) }}
+      value={{
+        admin: admin,
+        preview,
+        togglePreview: () => setPreview((s) => !s),
+
+        reset: () => {
+          setAdmin(undefined);
+          setPreview(false);
+        },
+      }}
     >
       {children}
       {admin ? <Devtools /> : null}

@@ -43,6 +43,7 @@
     "react": "*"
   },
   "devDependencies": {
+    "@supabase/supabase-js": "^2.108.2",
     "@types/react": "^19.2.17"
   }
 }

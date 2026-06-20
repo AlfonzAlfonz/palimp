@@ -33,20 +33,20 @@ export const PublishStatusIcon = ({ run, isPending, size = 16 }: Props) => {
   }
 
   if (!run) {
-    return <CircleDashed size={size} color="#bfbfbf" />;
+    return <CircleDashed size={size} color="#bfbfbf" strokeWidth={1.2} />;
   }
 
   switch (run.conclusion) {
     case "success":
-      return <CircleCheck size={size} color="#52c41a" />;
+      return <CircleCheck size={size} color="#52c41a" strokeWidth={1.2} />;
     case "failure":
     case "timed_out":
-      return <CircleX size={size} color="#ff4d4f" />;
+      return <CircleX size={size} color="#ff4d4f" strokeWidth={1.2} />;
     case "cancelled":
     case "skipped":
-      return <CircleMinus size={size} color="#fa8c16" />;
+      return <CircleMinus size={size} color="#fa8c16" strokeWidth={1.2} />;
     case "unknown":
     default:
-      return <CircleHelp size={size} color="#8c8c8c" />;
+      return <CircleHelp size={size} color="#8c8c8c" strokeWidth={1.2} />;
   }
 };

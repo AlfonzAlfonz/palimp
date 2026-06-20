@@ -29,6 +29,8 @@ export const EditComponent = ({
   const pending = useEdit(messageKey);
   const value = pending ?? data ?? staleValue ?? "";
 
+  const touched = pending && pending !== (data ?? staleValue ?? "");
+
   if (ctx.preview) {
     return <>{value}</>;
   }
@@ -38,7 +40,10 @@ export const EditComponent = ({
       <textarea
         value={isLoading ? "" : value}
         placeholder={isLoading ? staleValue : messageKey}
-        style={style}
+        style={{
+          ...style,
+          boxShadow: touched ? "0px 0px 2px 1px cyan" : undefined,
+        }}
         onChange={(e) => editsStore.set(messageKey, e.target.value)}
         disabled={isLoading}
         onClick={(e) => {

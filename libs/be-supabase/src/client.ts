@@ -1,11 +1,11 @@
-import { type createBrowserClient } from "@supabase/ssr";
 import type { PalimpClientBackendAdapter } from "@palimp/core";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 export const createClientAdapter = (
   url: string,
   key: string,
 ): PalimpClientBackendAdapter => {
-  let supabase: ReturnType<typeof createBrowserClient> = null!;
+  let supabase: SupabaseClient = null!;
 
   const ensureSupabase = async () => {
     const m = await import("@supabase/ssr");
@@ -30,6 +30,10 @@ export const createClientAdapter = (
         return;
       }
       // value satisfies never;
+    },
+    logout: async () => {
+      await ensureSupabase();
+      await supabase.auth.signOut();
     },
     hasSession: () => hasAuthCookie(url),
 

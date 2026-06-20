@@ -1,4 +1,4 @@
-import { Button, Space } from "antd";
+import { Button, Divider, Space } from "antd";
 import { useState } from "react";
 import { PublishStatusIcon } from "./PublishStatusIcon";
 import { PublishStatusModal } from "./PublishStatusModal";
@@ -6,8 +6,12 @@ import { usePreviewButton } from "./usePreviewButton";
 import { usePublishButton } from "./usePublishButton";
 import { usePublishRun } from "./usePublishRun";
 import { useSaveButton } from "./useSaveButton";
+import { useDevtools } from "./DevtoolsContext";
+import { LogOut } from "lucide-react";
 
 export const DevtoolsContent = () => {
+  const { user, logout } = useDevtools();
+
   const save = useSaveButton();
   const preview = usePreviewButton();
   const publish = usePublishButton();
@@ -24,7 +28,7 @@ export const DevtoolsContent = () => {
 
   return (
     <>
-      <Button {...save.props} block>
+      <Button {...save.props} block type="primary">
         {save.isPending ? "Saving..." : `Save (${save.length})`}
       </Button>
 
@@ -53,6 +57,30 @@ export const DevtoolsContent = () => {
         open={modalOpen}
         onClose={() => setModalOpen(false)}
       />
+
+      <Divider
+        dashed
+        titlePlacement="start"
+        size="small"
+        style={{ marginBottom: 0 }}
+      />
+
+      <Space.Compact>
+        <div style={{ flex: "1 1 0" }}>
+          {user.name ? (
+            <>
+              <div>{user.name}</div>
+              <div style={{ fontSize: "12px" }}>{user.email}</div>
+            </>
+          ) : (
+            user.email
+          )}
+        </div>
+        <Button
+          icon={<LogOut size={16} strokeWidth={1.2} />}
+          onClick={() => logout()}
+        />
+      </Space.Compact>
     </>
   );
 };
