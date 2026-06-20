@@ -19,6 +19,7 @@
     "@palimp/be-supabase": "workspace:*",
     "@palimp/core": "workspace:*",
     "@palimp/fe-next": "workspace:*",
+    "@palimp/publish-github": "workspace:*",
     "@types/react": "^19.2.17",
     "next": "^16.2.9",
     "react": "^19.2.7",

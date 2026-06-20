@@ -2,6 +2,7 @@ import { Button, Drawer, FloatButton } from "antd";
 import { PencilRuler } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { usePreviewButton } from "./usePreviewButton";
+import { usePublishButton } from "./usePublishButton";
 import { useSaveButton } from "./useSaveButton";
 
 export const Devtools = () => {
@@ -9,6 +10,7 @@ export const Devtools = () => {
 
   const save = useSaveButton();
   const preview = usePreviewButton();
+  const publish = usePublishButton();
 
   const drawerRef = useRef<HTMLDivElement>(null!);
   useEffect(function closeOnClickOutside() {
@@ -46,6 +48,7 @@ export const Devtools = () => {
       >
         <FloatButton.Group
           placement="right"
+          shape="square"
           style={{
             position: "fixed",
             top: "50%",
@@ -70,6 +73,12 @@ export const Devtools = () => {
           style={{ pointerEvents: "all" }}
           title="Palimp menu"
           styles={{
+            wrapper: {
+              borderRadius: "var(--ant-border-radius-lg)",
+            },
+            section: {
+              borderRadius: "var(--ant-border-radius-lg)",
+            },
             body: {
               padding: "8px",
               display: "flex",
@@ -88,7 +97,9 @@ export const Devtools = () => {
 
           <div style={{ flex: "1 1 0" }} />
 
-          <Button disabled>Publish</Button>
+          <Button {...publish.props} block>
+            {publish.isPending ? "Publishing..." : "Publish"}
+          </Button>
         </Drawer>
       </div>
     </div>

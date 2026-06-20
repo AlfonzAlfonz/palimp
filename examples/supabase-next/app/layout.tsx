@@ -1,6 +1,7 @@
 import { PalimpSupabaseProvider } from "@palimp/be-supabase/react";
 import { createServerAdapter } from "@palimp/be-supabase/server";
 import { PalimpProvider, setBackendAdapter } from "@palimp/fe-next";
+import { PalimpGithubPublishProvider } from "@palimp/publish-github/react";
 import { type ReactNode } from "react";
 
 setBackendAdapter(
@@ -16,11 +17,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       url={process.env.NEXT_PUBLIC_SUPABASE_URL!}
       publishableKey={process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!}
     >
-      <PalimpProvider>
-        <html lang="en">
-          <body>{children}</body>
-        </html>
-      </PalimpProvider>
+      <PalimpGithubPublishProvider
+        token={process.env.NEXT_PUBLIC_GITHUB_TOKEN!}
+        owner={process.env.NEXT_PUBLIC_GITHUB_OWNER!}
+        repo={process.env.NEXT_PUBLIC_GITHUB_REPO!}
+        workflow={process.env.NEXT_PUBLIC_GITHUB_WORKFLOW!}
+      >
+        <PalimpProvider>
+          <html lang="en">
+            <body>{children}</body>
+          </html>
+        </PalimpProvider>
+      </PalimpGithubPublishProvider>
     </PalimpSupabaseProvider>
   );
 }

@@ -222,6 +222,9 @@ importers:
       '@palimp/fe-next':
         specifier: workspace:*
         version: link:../../libs/fe-next
+      '@palimp/publish-github':
+        specifier: workspace:*
+        version: link:../../libs/publish-github
       '@types/react':
         specifier: ^19.2.17
         version: 19.2.17
@@ -287,6 +290,19 @@ importers:
       react:
         specifier: '>=18.0.0'
         version: 19.2.7
+
+  libs/publish-github:
+    dependencies:
+      '@palimp/core':
+        specifier: workspace:*
+        version: link:../core
+      react:
+        specifier: '*'
+        version: 19.2.7
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.17
+        version: 19.2.17
 
 packages:
 
